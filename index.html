@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>GIMAKER - BRAT Sticker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0f, #1a0a0a);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 420px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: rgba(20, 20, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 30px 25px;
+            border: 2px solid #1a1a2e;
+            box-shadow: 0 0 60px rgba(255, 0, 51, 0.05);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header .icon {
+            font-size: 50px;
+            color: #ff0033;
+            margin-bottom: 5px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ff0033, #ff6600);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #888;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group label i {
+            color: #ff0033;
+            margin-right: 5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid #1a1a2e;
+            background: rgba(255, 255, 255, 0.03);
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #ff0033;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #444;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn-generate {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ff0033, #cc0022);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .btn-generate:hover {
+            box-shadow: 0 0 30px rgba(255, 0, 51, 0.2);
+            transform: scale(1.02);
+        }
+
+        .btn-generate:active {
+            transform: scale(0.96);
+        }
+
+        .btn-generate:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* PREVIEW */
+        .preview-section {
+            margin-top: 20px;
+            display: none;
+            border-top: 1px solid #1a1a2e;
+            padding-top: 20px;
+        }
+
+        .preview-section.active {
+            display: block;
+        }
+
+        .preview-section .preview-title {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .preview-section .preview-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid #1a1a2e;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        .preview-section .preview-box img {
+            max-width: 100%;
+            max-height: 350px;
+            border-radius: 10px;
+        }
+
+        .preview-section .preview-box .loading-text {
+            color: #666;
+            font-size: 14px;
+            padding: 30px 0;
+        }
+
+        .preview-section .preview-box .loading-text i {
+            color: #ff0033;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .btn-download {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #00ff41;
+            border-radius: 12px;
+            background: rgba(0, 255, 65, 0.05);
+            color: #00ff41;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .btn-download:hover {
+            background: rgba(0, 255, 65, 0.1);
+        }
+
+        .btn-download:active {
+            transform: scale(0.96);
+        }
+
+        .btn-download i {
+            font-size: 16px;
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a1a1a;
+            border: 1px solid #ff0033;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 13px;
+            z-index: 9999;
+            display: none;
+            color: #fff;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .toast.show {
+            display: block;
+            animation: toastIn 0.3s ease;
+        }
+
+        @keyframes toastIn {
+            0% {
+                transform: translateX(-50%) translateY(20px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* OPTIONS */
+        .options-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .options-row .form-group {
+            margin-bottom: 0;
+        }
+
+        .footer {
+            text-align: center;
+            color: #333;
+            font-size: 10px;
+            padding: 15px 0 5px;
+        }
+
+        .footer span {
+            color: #ff0033;
+        }
+
+        .watermark {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            color: rgba(255, 255, 255, 0.05);
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            pointer-events: none;
+        }
+
+        @media (max-width: 400px) {
+            .card {
+                padding: 20px 16px;
+            }
+            .header h1 {
+                font-size: 22px;
+            }
+            .options-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <div class="header">
+            <div class="icon"><i class="fas fa-crown"></i></div>
+            <h1>GIMAKER</h1>
+            <p><i class="fas fa-bolt" style="color:#ff0033;"></i> BRAT Sticker Maker • WA Style</p>
+        </div>
+
+        <!-- Input Teks -->
+        <div class="form-group">
+            <label><i class="fas fa-font"></i> Teks BRAT</label>
+            <textarea id="textInput" placeholder="Masukkan teks untuk sticker BRAT..." rows="3">GIMAKER</textarea>
+        </div>
+
+        <!-- Opsi -->
+        <div class="options-row">
+            <div class="form-group">
+                <label><i class="fas fa-palette"></i> Warna Teks</label>
+                <input type="color" id="textColor" value="#ffffff">
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-fill-drip"></i> Warna BG</label>
+                <input type="color" id="bgColor" value="#ff0033">
+            </div>
+        </div>
+
+        <!-- Tombol Generate -->
+        <button class="btn-generate" id="generateBtn" onclick="generateSticker()">
+            <i class="fas fa-wand-magic-sparkles"></i> Buat Sticker
+        </button>
+
+        <!-- Preview -->
+        <div class="preview-section" id="previewSection">
+            <div class="preview-title"><i class="fas fa-image"></i> Preview Sticker</div>
+            <div class="preview-box" id="previewBox">
+                <div class="loading-text" id="loadingText">
+                    <i class="fas fa-spinner"></i> Sedang membuat...
+                </div>
+                <img id="resultImage" style="display:none;" alt="Sticker BRAT">
+                <div class="watermark">GIMAKER</div>
+            </div>
+            <button class="btn-download" id="downloadBtn" onclick="downloadSticker()" style="display:none;">
+                <i class="fas fa-download"></i> Download Sticker
+            </button>
+        </div>
+
+        <div class="footer">
+            GIMAKER v1.0 • BY <span>AGIW</span> • XNX VENGELL
+        </div>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+    <span id="toastMessage">Sukses!</span>
+</div>
+
+<script>
+    // ============================================================
+    // CONFIG
+    // ============================================================
+    const API_URL = 'https://api.siputzx.my.id/api/m/brat';
+
+    // ============================================================
+    // GENERATE STICKER
+    // ============================================================
+    async function generateSticker() {
+        const text = document.getElementById('textInput').value.trim();
+        const textColor = document.getElementById('textColor').value.replace('#', '');
+        const bgColor = document.getElementById('bgColor').value.replace('#', '');
+
+        const btn = document.getElementById('generateBtn');
+        const preview = document.getElementById('previewSection');
+        const loadingText = document.getElementById('loadingText');
+        const resultImg = document.getElementById('resultImage');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        if (!text) {
+            showToast('❌ Masukkan teks dulu bang!');
+            return;
+        }
+
+        // Show preview loading
+        preview.classList.add('active');
+        loadingText.style.display = 'block';
+        resultImg.style.display = 'none';
+        downloadBtn.style.display = 'none';
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+
+        try {
+            // Build URL dengan parameter
+            const url = `${API_URL}?text=${encodeURIComponent(text)}&textColor=${textColor}&bgColor=${bgColor}`;
+
+            // Fetch image dari API
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error('Gagal generate sticker');
+            }
+
+            // Konversi ke blob
+            const blob = await response.blob();
+            const imageUrl = URL.createObjectURL(blob);
+
+            // Tampilkan hasil
+            resultImg.src = imageUrl;
+            resultImg.style.display = 'block';
+            loadingText.style.display = 'none';
+            downloadBtn.style.display = 'block';
+
+            // Simpan URL untuk download
+            downloadBtn._imageUrl = imageUrl;
+
+            showToast('✅ Sticker berhasil dibuat!');
+
+        } catch (error) {
+            console.error('Error:', error);
+            showToast('❌ Gagal membuat sticker! Coba lagi.');
+            preview.classList.remove('active');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-wand-magic-sparkles"></i> Buat Sticker';
+        }
+    }
+
+    // ============================================================
+    // DOWNLOAD STICKER
+    // ============================================================
+    function downloadSticker() {
+        const btn = document.getElementById('downloadBtn');
+        const url = btn._imageUrl;
+
+        if (!url) {
+            showToast('❌ Tidak ada gambar untuk di-download');
+            return;
+        }
+
+        // Buat link download
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `gimaker_${Date.now()}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        showToast('✅ Download dimulai!');
+    }
+
+    // ============================================================
+    // TOAST
+    // ============================================================
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toastMessage').textContent = msg;
+        toast.classList.add('show');
+        if (navigator.vibrate) navigator.vibrate(20);
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // ============================================================
+    // ENTER KEY SUPPORT
+    // ============================================================
+    document.getElementById('textInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            generateSticker();
+        }
+    });
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    console.log('🔥 GIMAKER - BRAT Sticker Maker');
+    console.log('📱 API:', API_URL);
+    console.log('✅ Siap digunakan!');
+
+    // Auto generate pertama
+    setTimeout(() => {
+        generateSticker();
+    }, 500);
+</script>
+
+</body>
+</html>
